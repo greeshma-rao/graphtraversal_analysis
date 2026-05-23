@@ -1,0 +1,21 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.read_csv("../results/raw_data.csv")
+
+for graph_type in data["Type"].unique():
+    subset = data[data["Type"] == graph_type]
+
+    bfs_data = subset[subset["Algorithm"] == "BFS"]
+    dfs_data = subset[subset["Algorithm"] == "DFS"]
+
+    plt.plot(bfs_data["Nodes"], bfs_data["Time"])
+    plt.plot(dfs_data["Nodes"], dfs_data["Time"])
+
+    plt.title(f"{graph_type} Graph - BFS vs DFS Time")
+    plt.xlabel("Number of Nodes")
+    plt.ylabel("Execution Time (seconds)")
+    plt.legend(["BFS", "DFS"])
+
+    plt.savefig(f"../results/plots/{graph_type}_time.png")
+    plt.clf()
